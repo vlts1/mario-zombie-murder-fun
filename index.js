@@ -5,6 +5,11 @@ canvas.width = 512;
 canvas.height = 480;
 
 document.body.appendChild(canvas);
+
+const deathAudio = new Audio('./audio/mixkit-monster-dying-in-pain-1960.wav');
+const startAudio = new Audio('./audio/mixkit-drums-of-war-call-2780.wav');
+const hitAudio   = new Audio('./audio/mixkit-falling-on-undergrowth-390.wav');
+
 class Zombie {
 	constructor(x, y) {
 		this.x = x;
@@ -111,15 +116,18 @@ var update = function (modifier) {
 	// Are they touching?
 	if (isZombieKilled(zombie) || isZombieKilled(zombie2)) {
 		++zombiePoints;
+		hitAudio.play();
 		reset();
 	}
 	else if (isZombieKilled(zombieSec)) {
 		let gotLucky = Math.random() >= .5;
 		if (gotLucky) {
 			zombiePoints += 5;
+			hitAudio.play();
 			reset();
 		}
 		else {
+			deathAudio.play();
 			alert('The Zombie was too strong and ate you!');
 			location.reload();
 		}
@@ -169,3 +177,4 @@ var main = function () {
 var then = Date.now();
 reset();
 main();
+startAudio.play();
